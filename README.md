@@ -20,16 +20,16 @@ The password secuirty indicator is marked on 4 scores. These are
 
 Firstly include jQuery and the strength.css and strength.js files. Place these before `&lt;/head&gt;` section
 
-  					`<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  					<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="strength.js"></script>
-<script type="text/javascript" src="js.js"></script>`
+<script type="text/javascript" src="js.js"></script>
 					
 
 ##### Create a password input field
 
 You must give your password input a unique ID.
 
-							`<input id="myPassword" type="password" name="" value="">`
+							<input id="myPassword" type="password" name="" value="">
 
 ##### Initiate the plugin
 
