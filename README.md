@@ -38,7 +38,7 @@ Once you have created your password input field you will need to initiate the pl
 At its most basic level you can initiate the plugin like:
 
 						
-`$(document).ready(function ($) {
+`$(document).ready(function ($) {	
      $('#myPassword').strength();
 });`
 					
@@ -56,7 +56,7 @@ $('#myPassword').strength({
 
 #### ..:: Options
 
-						<table>
+<table>
 							<thead>
 								<tr>
 									<th>Variable</th>
