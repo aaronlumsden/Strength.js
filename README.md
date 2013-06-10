@@ -7,6 +7,10 @@ The ultimate jQuery password input plugin. Featuring secure strength indicator a
 
 Strength.js provides a toggle feature for password input fields that allows the user to view or asterisk the password. It also features a strength indicator to show how secure a users password is.
 
+#### ..:: Demo
+For a demo visit http://git.aaronlumsden.com/strength.js/
+
+
 The password secuirty indicator is marked on 4 scores. These are
 
 *   Password must contain 8 characters or more
