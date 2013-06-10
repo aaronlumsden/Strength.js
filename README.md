@@ -39,9 +39,7 @@ At its most basic level you can initiate the plugin like:
 
 						
 $(document).ready(function ($) {
-
      $('#myPassword').strength();
-
 });
 					
 
