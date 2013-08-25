@@ -41,51 +41,111 @@
             var lowerCase= new RegExp('[a-z]');
             var numbers = new RegExp('[0-9]');
             var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
+			
+			
 
+			
+			
             function GetPercentage(a, b) {
                     return ((b / a) * 100);
                 }
 
                 function check_strength(thisval,thisid){
-                     if (thisval.length > 8) { characters = 1; } else { characters = 0; };
+					
+                    if (thisval.length > 8) { characters = 1; } else { characters = 0; };
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
 
                     var total = characters + capitalletters + loweletters + number + special;
                     var totalpercent = GetPercentage(7, total).toFixed(0);
+					var attributes = new Array(characters, capitalletters, loweletters, number, special);
+				
+					
+					var time = CalcTime(thisval,attributes);
 
-                  
-
-                    get_total(total,thisid);
+                    get_total(total,thisid,time);
                 }
 
-            function get_total(total,thisid){
+            function get_total(total,thisid,time){
 
                   var thismeter = $('div[data-meter="'+thisid+'"]');
-                if(total == 0){
-                      thismeter.removeClass().html('');
-                }else if (total <= 1) {
+                    if (total <= 1) {
                    thismeter.removeClass();
-                   thismeter.addClass('veryweak').html('<p>Strength: very weak</p>');
+                   thismeter.addClass('veryweak').html('very weak');
                 } else if (total == 2){
                     thismeter.removeClass();
-                   thismeter.addClass('weak').html('<p>Strength: weak</p>');
+                   thismeter.addClass('weak').html('weak');
                 } else if(total == 3){
                     thismeter.removeClass();
-                   thismeter.addClass('medium').html('<p>Strength: medium</p>');
+                   thismeter.addClass('medium').html('medium');
 
                 } else {
                      thismeter.removeClass();
-                   thismeter.addClass('strong').html('<p>Strength: strong</p>');
-                } 
-                console.log(total);
+                   thismeter.addClass('strong').html('strong');
+                }
+				$('#time').text(time);
+				
+				
             }
+			
+			function CalcTime(n, attr){
+			 
+			 
+			  var speed = 2000000;
+			  
+			var cslen=0;
+			if(attr[1] == 1)
+				cslen += 26;
+			if(attr[2] == 1)
+				cslen += 26;
+			if(attr[3] == 1)
+				cslen += 10;
+			if(attr[4] == 1)
+				cslen += 108;
+
+			  var t = Math.pow(cslen,n.length) / speed;
+			  var s;
+			  
+				if (t<60)
+				 s=" a minute";
+				else
+				{
+					t /= 60;
+					if (t<180)
+						s = Math.ceil(t).toString() + " minutes";
+					else
+					{	
+						t /= 60;
+						if (t<72)
+							s = Math.ceil(t).toString() + " hours";
+						else
+						{	t /= 24;
+						if (t<90)
+							s = Math.ceil(t).toString() + " days";
+
+							else
+							{	t /= 30;
+						if (t<36)
+							s = Math.ceil(t).toString() + " months";
+						else
+						{	t /= 12;
+							s = Math.ceil(t).toString() + " years";
+						}
+							}
+							
+						}
+					}
+				}
+			 
+			  
+			  return s;
+			}
 
 
 
 
-
+	
             var isShown = false;
             var strengthButtonText = this.options.strengthButtonText;
             var strengthButtonTextToggle = this.options.strengthButtonTextToggle;
@@ -93,8 +153,9 @@
 
             thisid = this.$elem.attr('id');
 
-            this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after('<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value=""><a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a><div class="'+this.options.strengthMeterClass+'"><div data-meter="'+thisid+'"><p></p></div></div>');
-             
+            this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after('<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value=""><a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a><div class="'+this.options.strengthMeterClass+'"><div data-meter="'+thisid+'">Strength</div><p id="time"></p></div>');
+            
+			 
             this.$elem.bind('keyup keydown', function(event) {
                 thisval = $('#'+thisid).val();
                 $('input[type="text"][data-password="'+thisid+'"]').val(thisval);
