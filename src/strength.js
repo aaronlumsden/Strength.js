@@ -49,7 +49,7 @@
                 }
 
                 function check_strength(thisval,thisid){
-                     if (thisval.length > minLength) { characters = 1; } else { characters = 0; };
+                     if (thisval.length > minLength) { characters = 1; } else if (thisval.length==0) {characters = -1;} else { characters = 0; };
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
@@ -57,15 +57,15 @@
                     var total = characters + capitalletters + loweletters + number + special;
                     var totalpercent = GetPercentage(7, total).toFixed(0);
 
-                  
-
                     get_total(total,thisid);
                 }
 
             function get_total(total,thisid){
 
                   var thismeter = $('div[data-meter="'+thisid+'"]');
-                    if (total <= 1) {
+                if (total <= 0) {
+                   thismeter.removeClass().html('strength');
+                } else if (total <= 1) {
                    thismeter.removeClass();
                    thismeter.addClass('veryweak').html('very week');
                 } else if (total == 2){
