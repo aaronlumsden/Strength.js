@@ -12,7 +12,8 @@
             strengthMeterClass: 'strength_meter',
             strengthButtonClass: 'button_strength',
             strengthButtonText: 'Show Password',
-            strengthButtonTextToggle: 'Hide Password'
+            strengthButtonTextToggle: 'Hide Password',
+            minLength: 6
         };
 
        // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
@@ -36,6 +37,7 @@
             var loweletters = 0;
             var number = 0;
             var special = 0;
+            var minLength = this.options.minLength;
 
             var upperCase= new RegExp('[A-Z]');
             var lowerCase= new RegExp('[a-z]');
@@ -47,7 +49,7 @@
                 }
 
                 function check_strength(thisval,thisid){
-                     if (thisval.length > 8) { characters = 1; } else { characters = 0; };
+                     if (thisval.length > minLength) { characters = 1; } else { characters = 0; };
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
@@ -156,5 +158,3 @@
     };
 
 })( jQuery, window, document );
-
-
