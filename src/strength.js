@@ -13,7 +13,9 @@
             strengthButtonClass: 'button_strength',
             strengthButtonText: 'Show Password',
             strengthButtonTextToggle: 'Hide Password',
-            minLength: 6
+            weak: /^[a-zA-Z0-9]{6,}$/, // minimum acceptable: min 6 chars, any char/number, no spaces
+            medium: /^(?=.*\d)(?=.*[a-z])(?!.*\s).{8,}$|^(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$/, // reasonable: min 8 chars, either caps+no-caps or no-caps+numbers, no spaces
+            strong: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$/ // strong: min 8 chars, caps+no-caps+numbers, no spaces
         };
 
        // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
@@ -31,64 +33,28 @@
 
         init: function() {
 
+            var weakTest = this.options.weak;
+            var meduimTest = this.options.medium;
+            var strongTest = this.options.strong;
 
-            var characters = 0;
-            var capitalletters = 0;
-            var loweletters = 0;
-            var number = 0;
-            var special = 0;
-            var minLength = this.options.minLength;
-
-            var upperCase= new RegExp('[A-Z]');
-            var lowerCase= new RegExp('[a-z]');
-            var numbers = new RegExp('[0-9]');
-            var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
-
-            function GetPercentage(a, b) {
-                    return ((b / a) * 100);
-                }
-
-                function check_strength(thisval,thisid){
-                     if (thisval.length > minLength) { characters = 1; } else if (thisval.length==0) {characters = -1;} else { characters = 0; };
-                    if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
-                    if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
-                    if (thisval.match(numbers)) { number = 1}  else { number = 0; };
-
-                    var total = characters + capitalletters + loweletters + number + special;
-                    var totalpercent = GetPercentage(7, total).toFixed(0);
-
-                    get_total(total,thisid);
-                }
-
-            function get_total(total,thisid){
-
-                  var thismeter = $('div[data-meter="'+thisid+'"]');
-                if (total <= 0) {
-                   thismeter.removeClass().html('strength');
-                } else if (total <= 1) {
-                   thismeter.removeClass();
-                   thismeter.addClass('veryweak').html('very week');
-                } else if (total == 2){
-                    thismeter.removeClass();
-                   thismeter.addClass('weak').html('week');
-                } else if(total == 3){
-                    thismeter.removeClass();
-                   thismeter.addClass('medium').html('medium');
-
-                } else {
-                     thismeter.removeClass();
-                   thismeter.addClass('strong').html('strong');
-                }
+            function check_strength(thisval,thisid){
+              var thismeter = $('div[data-meter="'+thisid+'"]');
+              if (thisval.length==0) {
+                thismeter.removeClass().text('strength');
+              } else if (thisval.search(strongTest)>=0) {
+                thismeter.removeClass().addClass('strong').text('strong');
+              } else if (thisval.search(meduimTest)>=0) {
+                thismeter.removeClass().addClass('medium').text('medium');
+              } else if (thisval.search(weakTest)>=0) {
+                thismeter.removeClass().addClass('weak').text('weak');
+              } else {
+                thismeter.removeClass().addClass('veryweak').text('very week');
+              }
             }
-
-
-
-
 
             var isShown = false;
             var strengthButtonText = this.options.strengthButtonText;
             var strengthButtonTextToggle = this.options.strengthButtonTextToggle;
-
 
             thisid = this.$elem.attr('id');
 
