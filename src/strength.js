@@ -117,7 +117,8 @@
             if (options.showHide === true) {
                 $(document.body).on('click', '.'+options.showHideButtonClass, function(e) {
                     e.preventDefault();
-                    thisclass = 'hide_'+$(this).attr('class');
+                    var thisid = $(this).data('password-button');
+                    var thisclass = 'hide_'+$(this).attr('class');
                     if (isShown) {
                         $('input[type="text"][data-password="'+thisid+'"]').prop('disabled', true).hide();
                         $('input[type="password"][data-password="'+thisid+'"]').prop('disabled', false).show().focus();
