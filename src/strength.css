@@ -2,33 +2,182 @@
 /* CSS Document */
 
 .strength_meter{
-	height:23px;
-width: 154px;
-	background:silver;
-	
+  display: inline-block;
+  background:silver;
 }
 .strength_meter div{
-	height:23px;
-	width:100%;
-	height:23px;
-	text-align:center;
-	color:black;
-	font-weight:bold;
-	line-height:23px;
+  text-align:center;
+  color:black;
+  font-weight:bold;
+  border: 1px solid white;
 }
 .veryweak{
-	background-color: #FFA0A0;
-border-color: #F04040!important
+  background-color: #FFA0A0;
+  border-color: #F04040;
 }
 .weak{
-background-color: #FFB78C;
-border-color: #FF853C!important;
+  background-color: #FFB78C;
+  border-color: #FF853C;
 }
 .medium{
-background-color: #FFEC8B;
-border-color: #FC0!important;
+  background-color: #FFEC8B;
+  border-color: #FC0;
 }
 .strong{
-background-color: #C3FF88;
-border-color: #8DFF1C!important;
+  background-color: #C3FF88;
+  border-color: #8DFF1C;
+}
+
+/* strength and show hide in a wrapper (places all the chrome inside the input box) */
+
+.strength_wrapper input {
+  position: relative;
+  z-index: 1;
+  margin: 0 !important;
+  padding-left: 35px !important;
+  background: transparent !important;
+  font-size: 1em !important;
+}
+.strength_wrapper input::-ms-reveal {
+  display: none !important;
+}
+.strength_wrapper .strength_meter{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  border-radius: 3px;
+  background-color: #fff;
+}
+.strength_wrapper .strength_meter div {
+  height: 100%;
+  text-indent: -9999em;
+  border: none
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+.strength_wrapper .strength_meter div:before {
+    content: '\2752';
+    position: absolute;
+    top: 50%;
+    left: 0.2em;
+    margin-top: -0.5em;
+    color: #bbb;
+    font-family: strength-icon;
+    font-size: 1.2em;
+    font-weight: normal;
+    line-height: 1;
+    text-indent: 0;
+}
+.strength_wrapper .veryweak{
+  background-color: #FFDDDD;
+  width:25%;
+}
+.strength_wrapper .veryweak:before{
+  content: '\2639' !important;
+  color: #F04040 !important;
+}
+.strength_wrapper .weak{
+  background-color: #FDDFD0;
+  width: 50%;
+}
+.strength_wrapper .weak:before{
+  content: '\25ef' !important;
+  color: #FF853C !important;
+}
+.strength_wrapper .medium{
+  background-color: #FFF6C5;
+  width:75%;
+}
+.strength_wrapper .medium:before{
+  content: '\263a' !important;
+  color: #F5A623 !important;
+}
+.strength_wrapper .strong{
+  background-color: #DFFEC2;
+  width:100%;
+}
+.strength_wrapper .strong:before{
+  content: '\25d3' !important;
+  color: #65B913 !important;
+}
+.strength_wrapper .button_showhide {
+  position: absolute;
+  right: 0.5em;
+  top: 50%;
+  z-index: 2;
+  margin-top: -0.5em;
+  font-size: 12px;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+  .strength_wrapper .button_showhide {
+    text-indent: -999em;
+  }
+  .strength_wrapper .button_showhide:before {
+    content: '\25ce';
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: strength-icon;
+    font-size: 1.2em;
+    text-indent: 0;
+  }
+  .strength_wrapper .hide_button_showhide:before {
+    content: '\25cc';
+  }
+}
+
+/* icon font */
+
+@font-face {
+  font-family: 'strength-icon';
+  src:url('fonts/icomoon.eot?-h3y351');
+  src:url('fonts/icomoon.eot?#iefix-h3y351') format('embedded-opentype'),
+    url(data:font/woff;base64,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) format('woff'),
+    url('fonts/icomoon.ttf?-h3y351') format('truetype'),
+    url('fonts/icomoon.svg?-h3y351#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-lock:before {
+  content: "\2752";
+}
+.icon-happy:before {
+  content: "\25d3";
+}
+.icon-smiley:before {
+  content: "\263a";
+}
+.icon-sad:before {
+  content: "\2639";
+}
+.icon-neutral:before {
+  content: "\25ef";
+}
+.icon-search:before {
+  content: "\25ce";
+}
+.icon-zoom-out:before {
+  content: "\25cc";
 }
