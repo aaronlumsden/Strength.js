@@ -41,8 +41,7 @@
             var options = this.options;
             var isShown = false;
             var thisid = this.$elem.attr('id');
-
-            console.log(options.mediumTest);
+            
             // check the password against the tests
             function check_strength(thisval,thisid){
                 var thismeter = $('div[data-meter="'+thisid+'"]');
@@ -87,8 +86,7 @@
                   marginBottom: this.$elem.css('marginBottom'),
                   marginLeft: this.$elem.css('marginLeft'),
                   fontSize: this.$elem.css('fontSize'),
-                  borderRadius: this.$elem.css('borderRadius'),
-                  overflow: 'hidden'
+                  borderRadius: this.$elem.css('borderRadius')
                 }
                 this.$elem.wrap($('<div />').addClass(options.wrapperClass).css(wrapperCSS));
             }
@@ -109,7 +107,7 @@
             // events to trigger strength meter
             $(document).on('keyup', 'input[data-password="'+thisid+'"]', function(event) {
                 thisval = $(this).val();
-                $('input[data-password="'+thisid+'"]').val(thisval);
+                $('input[data-password="'+thisid+'"]').not($(this)).val(thisval);
                 check_strength(thisval,thisid);
             });
 
