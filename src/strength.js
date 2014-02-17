@@ -10,9 +10,13 @@
         defaults = {
             strengthClass: 'strength',
             strengthMeterClass: 'strength_meter',
-            weak: /^[a-zA-Z0-9]{6,}$/, // minimum acceptable: min 6 chars, any caps/no-caps/number, no spaces
-            medium: /^(?=.*\d)(?=.*[a-z])(?!.*\s).{8,}$|^(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$/, // reasonable: min 8 chars, either caps+no-caps or no-caps+numbers, no spaces
-            strong: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$/, // strong: min 8 chars, caps+no-caps+numbers, no spaces
+            veryWeakText: 'very weak',
+            weakTest: /^[a-zA-Z0-9]{6,}$/, // minimum acceptable: min 6 chars, any caps/no-caps/number, no spaces
+            weakText: 'weak',
+            mediumTest: /^(?=.*\d)(?=.*[a-z])(?!.*\s).{8,}$|^(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$/, // reasonable: min 8 chars, either caps+no-caps or no-caps+numbers, no spaces
+            mediumText: 'medium',
+            strongTest: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$/, // strong: min 8 chars, caps+no-caps+numbers, no spaces
+            strongText: 'strong',
             wrapper: false,
             wrapperClass: 'strength_wrapper',
             showHide: true,
@@ -34,33 +38,24 @@
 
         init: function() {
 
-            var weakTest = this.options.weak;
-            var meduimTest = this.options.medium;
-            var strongTest = this.options.strong;
-
-            var wrapper = this.options.wrapper;
-            var wrapperClass = this.options.wrapperClass;
-
+            var options = this.options;
             var isShown = false;
-            var showHide = this.options.showHide;
-            var showHideButtonText = this.options.showHideButtonText;
-            var showHideButtonTextToggle = this.options.showHideButtonTextToggle;
-
             var thisid = this.$elem.attr('id');
 
+            console.log(options.mediumTest);
             // check the password against the tests
             function check_strength(thisval,thisid){
                 var thismeter = $('div[data-meter="'+thisid+'"]');
                 if (thisval.length==0) {
                   thismeter.removeClass().text('strength');
-                } else if (thisval.search(strongTest)>=0) {
-                  thismeter.removeClass().addClass('strong').text('strong');
-                } else if (thisval.search(meduimTest)>=0) {
-                  thismeter.removeClass().addClass('medium').text('medium');
-                } else if (thisval.search(weakTest)>=0) {
-                  thismeter.removeClass().addClass('weak').text('weak');
+                } else if (thisval.search(options.strongTest)>=0) {
+                  thismeter.removeClass().addClass('strong').text(options.strongText);
+                } else if (thisval.search(options.mediumTest)>=0) {
+                  thismeter.removeClass().addClass('medium').text(options.mediumText);
+                } else if (thisval.search(options.weakTest)>=0) {
+                  thismeter.removeClass().addClass('weak').text(options.weakText);
                 } else {
-                  thismeter.removeClass().addClass('veryweak').text('very weak');
+                  thismeter.removeClass().addClass('veryweak').text(options.veryWeakText);
                 }
             }
 
@@ -68,7 +63,7 @@
             this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid);
 
             // create wrapper if requested
-            if (wrapper === true) {
+            if (options.wrapper === true) {
                 // does the input even need a wrapper? Does one already exist?
                 var parent = this.$elem.parent();
                 if (
@@ -95,45 +90,47 @@
                   borderRadius: this.$elem.css('borderRadius'),
                   overflow: 'hidden'
                 }
-                this.$elem.wrap($('<div />').addClass(wrapperClass).css(wrapperCSS));
+                this.$elem.wrap($('<div />').addClass(options.wrapperClass).css(wrapperCSS));
             }
 
             // create strength meter
             this.$elem.after('\
-                <div class="'+this.options.strengthMeterClass+'">\
+                <div class="'+options.strengthMeterClass+'">\
                   <div data-meter="'+thisid+'">Strength</div>\
                 </div>');
 
             // create "show/hide" toggle and "text" verion of password field
-            if (showHide === true) {
+            if (options.showHide === true) {
                 this.$elem.after('\
-                    <input style="display:none" class="'+this.$elem.attr('class')+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="'+this.$elem.attr('name')+'" placeholder="'+this.$elem.attr('placeholder')+'" value="" disabled="disabled">\
-                    <a data-password-button="'+thisid+'" href="" class="'+this.options.showHideButtonClass+'">'+this.options.showHideButtonText+'</a>');
+                    <input style="display:none" class="'+this.$elem.attr('class')+options.strengthClass+'" data-password="'+thisid+'" type="text" name="'+this.$elem.attr('name')+'" placeholder="'+this.$elem.attr('placeholder')+'" value="" disabled="disabled">\
+                    <a data-password-button="'+thisid+'" href="" class="'+options.showHideButtonClass+'">'+options.showHideButtonText+'</a>');
             }
 
             // events to trigger strength meter
-            $(document).on('keyup keydown', 'input[data-password="'+thisid+'"]', function(event) {
+            $(document).on('keyup', 'input[data-password="'+thisid+'"]', function(event) {
                 thisval = $(this).val();
                 $('input[data-password="'+thisid+'"]').val(thisval);
                 check_strength(thisval,thisid);
             });
 
             // events to trigger show/hide for password field
-            $(document.body).on('click', '.'+this.options.showHideButtonClass, function(e) {
-                e.preventDefault();
-                thisclass = 'hide_'+$(this).attr('class');
-                if (isShown) {
-                    $('input[type="text"][data-password="'+thisid+'"]').prop('disabled', true).hide();
-                    $('input[type="password"][data-password="'+thisid+'"]').prop('disabled', false).show().focus();
-                    $('a[data-password-button="'+thisid+'"]').removeClass(thisclass).html(showHideButtonText);
-                    isShown = false;
-                } else {
-                    $('input[type="text"][data-password="'+thisid+'"]').prop('disabled', false).show().focus();
-                    $('input[type="password"][data-password="'+thisid+'"]').prop('disabled', true).hide();
-                    $('a[data-password-button="'+thisid+'"]').addClass(thisclass).html(showHideButtonTextToggle);
-                    isShown = true;
-                }
-            });
+            if (options.showHide === true) {
+                $(document.body).on('click', '.'+options.showHideButtonClass, function(e) {
+                    e.preventDefault();
+                    thisclass = 'hide_'+$(this).attr('class');
+                    if (isShown) {
+                        $('input[type="text"][data-password="'+thisid+'"]').prop('disabled', true).hide();
+                        $('input[type="password"][data-password="'+thisid+'"]').prop('disabled', false).show().focus();
+                        $('a[data-password-button="'+thisid+'"]').removeClass(thisclass).html(options.showHideButtonText);
+                        isShown = false;
+                    } else {
+                        $('input[type="text"][data-password="'+thisid+'"]').prop('disabled', false).show().focus();
+                        $('input[type="password"][data-password="'+thisid+'"]').prop('disabled', true).hide();
+                        $('a[data-password-button="'+thisid+'"]').addClass(thisclass).html(options.showHideButtonTextToggle);
+                        isShown = true;
+                    }
+                });
+            }
         }
     };
 
