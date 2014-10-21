@@ -41,26 +41,82 @@
             var lowerCase= new RegExp('[a-z]');
             var numbers = new RegExp('[0-9]');
             var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
+			
+			function doit(n, attr){
+			 
+			  var speed = 2000000;
+			  
+			  var cslen=0;
+			if(attr[1])
+				cslen += 26;
+			if(attr[2])
+				cslen += 26;
+			if(attr[3])
+				cslen += 10;
+			if(attr[4])
+				cslen += 108;
 
+			  var t = Math.pow(cslen,n) / speed;
+			  var s;
+			  
+				if (t<60)
+				 s=" a minute";
+				else
+				{
+					t /= 60;
+					if (t<180)
+						s = Math.ceil(t).toString() + " minutes";
+					else
+					{	
+						t /= 60;
+						if (t<72)
+							s = Math.ceil(t).toString() + " hours";
+						else
+						{	t /= 24;
+						if (t<90)
+							s = Math.ceil(t).toString() + " days";
+
+							else
+							{	t /= 30;
+						if (t<36)
+							s = Math.ceil(t).toString() + " months";
+						else
+						{	t /= 12;
+							s = Math.ceil(t).toString() + " years";
+						}
+							}
+							
+						}
+					}
+				}
+			 
+			  
+			  return s;
+			}
+
+			
+			
             function GetPercentage(a, b) {
                     return ((b / a) * 100);
                 }
 
                 function check_strength(thisval,thisid){
-                     if (thisval.length > 8) { characters = 1; } else { characters = 0; };
+					
+                    if (thisval.length > 8) { characters = 1; } else { characters = 0; };
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
 
                     var total = characters + capitalletters + loweletters + number + special;
                     var totalpercent = GetPercentage(7, total).toFixed(0);
+					var attributes = new Array (characters, capitalletters, loweletters, number, special);
 
-                  
+					var time = calculatetime(thisval,attributes);
 
-                    get_total(total,thisid);
+                    get_total(total,thisid,time);
                 }
 
-            function get_total(total,thisid){
+            function get_total(total,thisid,time){
 
                   var thismeter = $('div[data-meter="'+thisid+'"]');
                     if (total <= 1) {
@@ -77,6 +133,8 @@
                      thismeter.removeClass();
                    thismeter.addClass('strong').html('strong');
                 }
+				
+				
             }
 
 
