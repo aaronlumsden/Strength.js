@@ -55,7 +55,7 @@
                     var total = characters + capitalletters + loweletters + number + special;
                     var totalpercent = GetPercentage(7, total).toFixed(0);
 
-                  
+                    if (!thisval.length) {total = -1;}
 
                     get_total(total,thisid);
                 }
@@ -77,6 +77,8 @@
                      thismeter.removeClass();
                    thismeter.addClass('strong').html('strong');
                 }
+                
+                if (total == -1) { thismeter.removeClass().html('Strength'); }
             }
 
 
