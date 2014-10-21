@@ -65,10 +65,10 @@
                   var thismeter = $('div[data-meter="'+thisid+'"]');
                     if (total <= 1) {
                    thismeter.removeClass();
-                   thismeter.addClass('veryweak').html('very week');
+                   thismeter.addClass('veryweak').html('very weak');
                 } else if (total == 2){
                     thismeter.removeClass();
-                   thismeter.addClass('weak').html('week');
+                   thismeter.addClass('weak').html('weak');
                 } else if(total == 3){
                     thismeter.removeClass();
                    thismeter.addClass('medium').html('medium');
