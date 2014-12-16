@@ -47,7 +47,7 @@
                 }
 
                 function check_strength(thisval,thisid){
-                     if (thisval.length > 8) { characters = 1; } else { characters = 0; };
+                    if (thisval.length > 8) { characters = 1; } else { characters = -1; };
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
@@ -62,7 +62,7 @@
 
             function get_total(total,thisid){
 
-                  var thismeter = $('div[data-meter="'+thisid+'"]');
+                var thismeter = $('div[data-meter="'+thisid+'"]');
                     if (total <= 1) {
                    thismeter.removeClass();
                    thismeter.addClass('veryweak').html('very weak');
