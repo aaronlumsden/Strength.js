@@ -1,0 +1,21 @@
+{
+  "name": "strengthjs",
+  "version": "0.0.1",
+  "homepage": "https://github.com/aarondo/Strength.js",
+  "authors": [
+    "Aaron Lumsden <aaronlumsden@me.com>"
+  ],
+  "description": "The ultimate jQuery password input plugin. Featuring secure strength indicator and hide/show password.",
+  "main": [
+    "./src/strength.css",
+    "./src/strength.js"
+  ],
+  "keywords": [
+    "password",
+    "input",
+    "strength",
+    "hide",
+    "show"
+  ],
+  "license": "MIT"
+}
