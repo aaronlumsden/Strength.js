@@ -10,7 +10,6 @@ width: 154px;
 .strength_meter div{
 	height:23px;
 	width:100%;
-	height:23px;
 	text-align:center;
 	color:black;
 	font-weight:bold;
@@ -18,17 +17,17 @@ width: 154px;
 }
 .veryweak{
 	background-color: #FFA0A0;
-border-color: #F04040!important
+	border-color: #F04040!important
 }
 .weak{
-background-color: #FFB78C;
-border-color: #FF853C!important;
+	background-color: #FFB78C;
+	border-color: #FF853C!important;
 }
 .medium{
-background-color: #FFEC8B;
-border-color: #FC0!important;
+	background-color: #FFEC8B;
+	border-color: #FC0!important;
 }
 .strong{
-background-color: #C3FF88;
-border-color: #8DFF1C!important;
+	background-color: #C3FF88;
+	border-color: #8DFF1C!important;
 }
