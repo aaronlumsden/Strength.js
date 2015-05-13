@@ -51,6 +51,7 @@
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
+                    if (thisval.match(specialchars)) { special = 1}  else { special = 0; };
 
                     var total = characters + capitalletters + loweletters + number + special;
                     var totalpercent = GetPercentage(7, total).toFixed(0);
@@ -73,8 +74,11 @@
                    thismeter.addClass('weak').html('<p>Strength: weak</p>');
                 } else if(total == 3){
                     thismeter.removeClass();
-                   thismeter.addClass('medium').html('<p>Strength: medium</p>');
-
+                   thismeter.addClass('weak').html('<p>Strength: weak</p>');
+                }
+                else if(total == 4) {
+                    thismeter.removeClass();
+                    thismeter.addClass('medium').html('medium');
                 } else {
                      thismeter.removeClass();
                    thismeter.addClass('strong').html('<p>Strength: strong</p>');

@@ -51,6 +51,7 @@
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
+                    if (thisval.match(specialchars)) { special = 1}  else { special = 0; };
 
                     var total = characters + capitalletters + loweletters + number + special;
                     var totalpercent = GetPercentage(7, total).toFixed(0);
@@ -63,19 +64,21 @@
             function get_total(total,thisid){
 
                 var thismeter = $('div[data-meter="'+thisid+'"]');
-                    if (total <= 1) {
+                if (total <= 1) {
                    thismeter.removeClass();
                    thismeter.addClass('veryweak').html('very weak');
                 } else if (total == 2){
                     thismeter.removeClass();
-                   thismeter.addClass('weak').html('weak');
+                    thismeter.addClass('weak').html('weak');
                 } else if(total == 3){
                     thismeter.removeClass();
-                   thismeter.addClass('medium').html('medium');
-
+                    thismeter.addClass('weak').html('weak');
+                } else if(total == 4) {
+                    thismeter.removeClass();
+                    thismeter.addClass('medium').html('medium');
                 } else {
-                     thismeter.removeClass();
-                   thismeter.addClass('strong').html('strong');
+                    thismeter.removeClass();
+                    thismeter.addClass('strong').html('strong');
                 }
                 
                 if (total == -1) { thismeter.removeClass().html('Strength'); }
