@@ -106,7 +106,7 @@ If you want to initiate the plugin with options then you can do so like:
 									<td>showPasswordToggle</td>
 									<td>true</td>
 									<td>Enable or disable the show password button</td>
-									<td></td>
+									<td>true or false</td>
 								</tr>
 
 							</tbody>
