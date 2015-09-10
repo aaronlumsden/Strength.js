@@ -94,7 +94,7 @@
             var strengthButtonTextToggle = this.options.strengthButtonTextToggle;
             var showPasswordToggle = this.options.showPasswordToggle;
 
-            thisid = this.$elem.attr('id');
+            var thisid = this.$elem.attr('id');
 
             if (showPasswordToggle)
                 this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after('<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value=""><a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a><div class="'+this.options.strengthMeterClass+'"><div data-meter="'+thisid+'">Strength</div></div>');
