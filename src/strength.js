@@ -111,7 +111,7 @@
 
 
 
-            $(document.body).on('click', '.'+this.options.strengthButtonClass, function(e) {
+            $(document.body).delegate('.'+this.options.strengthButtonClass, 'click', function(e) {
                 e.preventDefault();
 
                thisclass = 'hide_'+$(this).attr('class');
