@@ -1,0 +1,28 @@
+{
+  "name": "strength.js",
+  "description": "The ultimate jQuery password input plugin. Featuring secure strength indicator and hide/show password",
+  "main": "src/strength.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aarondo/Strength.js"
+  },
+  "keywords": [
+    "jQuery plugin",
+    "secure strength indicator"
+  ],
+  "scripts": {
+    "build": "uglifyjs src/strength.js > src/strength.min.js"
+  },
+  "author": "Aaron Lumsden",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aarondo/Strength.js/issues"
+  },
+  "devDependencies": {
+    "uglify-js": "^2.4.23"
+  },
+  "homepage": "https://github.com/aarondo/Strength.js"
+}
