@@ -14,7 +14,7 @@
     "secure strength indicator"
   ],
   "scripts": {
-    "build": "uglifyjs src/strength.js > src/strength.min.js"
+    "minify": "uglifyjs src/strength.js > src/strength.min.js"
   },
   "author": "Aaron Lumsden",
   "license": "MIT",

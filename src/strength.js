@@ -17,10 +17,9 @@
             weekText: 'week',
             mediumText: 'medium',
             strongText: 'strong',
-            strengthText: 'Strength'
+            strengthText: 'Strength',
+            showPasswordToggle: true
         };
-
-       // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
 
     function Plugin( element, options ) {
         this.element = element;
@@ -34,17 +33,17 @@
     Plugin.prototype = {
 
         init: function() {
-            var characters = 0;
-            var capitalletters = 0;
-            var loweletters = 0;
-            var number = 0;
-            var special = 0;
-            var self = this;
+            var characters = 0,
+                capitalletters = 0,
+                loweletters = 0,
+                number = 0,
+                special = 0,
+                self = this,
 
-            var upperCase= new RegExp('[A-Z]');
-            var lowerCase= new RegExp('[a-z]');
-            var numbers = new RegExp('[0-9]');
-            var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
+                upperCase= new RegExp('[A-Z]'),
+                lowerCase= new RegExp('[a-z]'),
+                numbers = new RegExp('[0-9]'),
+                specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
 
             function GetPercentage(a, b) {
                 return ((b / a) * 100);
@@ -52,12 +51,14 @@
 
             function check_strength(thisval,thisid){
                 if (thisval.length > 8) { characters = 1; } else { characters = -1; };
+                if (thisval.length > 12) { characters = 2; };
                 if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                 if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                 if (thisval.match(numbers)) { number = 1}  else { number = 0; };
+                if (thisval.match(specialchars)) { special = 1}  else { special = 0; };
 
-                var total = characters + capitalletters + loweletters + number + special;
-                var totalpercent = GetPercentage(7, total).toFixed(0);
+                var total = characters + capitalletters + loweletters + number + special,
+                    totalpercent = GetPercentage(7, total).toFixed(0);
 
                 if (!thisval.length) {total = -1;}
 
@@ -66,26 +67,32 @@
 
             function get_total(total,thisid){
 
-                var thismeter = $('div[data-meter="'+thisid+'"]');
+                var thismeter = $('[data-meter="'+thisid+'"]');
                 thismeter.removeClass();
                 if (total <= 1) {
-                    thismeter.addClass('veryweak').html(self.options.veryWeakText);
-                } else if (total == 2){
-                    thismeter.addClass('weak').html(self.options.weakText);
-                } else if(total == 3){
+                    thismeter.addClass('veryweek').html(self.options.veryWeekText);
+                } else if (total == 2 || total == 3){
+                    thismeter.addClass('week').html(self.options.weekText);
+                } else if(total == 4){
                     thismeter.addClass('medium').html(self.options.mediumText);
                 } else {
                     thismeter.addClass('strong').html(self.options.strongText);
                 }
-                if (total == -1) { thismeter.html(self.options.strengthText); }
             }
 
-            var isShown = false;
-            var strengthButtonText = this.options.strengthButtonText;
-            var strengthButtonTextToggle = this.options.strengthButtonTextToggle;
-            var thisid = this.$elem.attr('id');
+            var isShown = false,
+                strengthButtonText = this.options.strengthButtonText,
+                strengthButtonTextToggle = this.options.strengthButtonTextToggle,
+                thisid = this.$elem.attr('id'),
+                tpl = '<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value="">';
 
-            this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after('<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value=""><a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a><div class="'+this.options.strengthMeterClass+'"><div data-meter="'+thisid+'">'+this.options.strengthText+'</div></div>');
+            if (this.options.showPasswordToggle) {
+                tpl = tpl + '<a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a>';
+            }
+
+            tpl = tpl + '<div class="'+this.options.strengthMeterClass+'">'+this.options.strengthText+': <span data-meter="'+thisid+'">'+this.options.veryWeekText+'</span></div>';
+
+            this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after(tpl);
 
             this.$elem.bind('keyup keydown', function(event) {
                 var thisval = $('#'+thisid).val();
@@ -101,7 +108,7 @@
 
             $(document.body).on('click', '.'+this.options.strengthButtonClass, function(e) {
                 e.preventDefault();
-                thisclass = 'hide_'+$(this).attr('class');
+                var thisclass = 'hide_'+$(this).attr('class');
 
                 if (isShown) {
                     $('input[type="text"][data-password="'+thisid+'"]').hide();
