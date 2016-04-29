@@ -23,7 +23,7 @@ Firstly include jQuery and the strength.css and strength.js files. Place these b
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="strength.js"></script>
 	<script type="text/javascript" src="js.js"></script>
-					
+
 
 ##### Create a password input field
 
@@ -37,23 +37,30 @@ Once you have created your password input field you will need to initiate the pl
 
 At its most basic level you can initiate the plugin like:
 
-						
+
 	$(document).ready(function ($) {
 
         $("#myPassword").strength();
 
     });
-					
+
 
 If you want to initiate the plugin with options then you can do so like:
 
-								
+
 	$('#myPassword').strength({
             strengthClass: 'strength',
             strengthMeterClass: 'strength_meter',
             strengthButtonClass: 'button_strength',
             strengthButtonText: 'Show password',
-            strengthButtonTextToggle: 'Hide Password'
+            strengthButtonTextToggle: 'Hide Password',
+						strengthText: {
+                veryweak : 'Very week',
+                week: 'Week',
+                medium: 'Medium',
+                strong: 'Strong',
+                strength: 'Strength'
+            }
         });		
 
 #### ..:: Options
