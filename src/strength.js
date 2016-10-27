@@ -11,8 +11,8 @@
             strengthClass: 'strength',
             strengthMeterClass: 'strength_meter',
             strengthButtonClass: 'button_strength',
-            strengthButtonText: 'Show Password',
-            strengthButtonTextToggle: 'Hide Password'
+            strengthButtonText: "<i class='fa fa-eye'></i>",
+            strengthButtonTextToggle: "<i class='fa fa-eye-slash'></i>"
         };
 
        // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
@@ -29,8 +29,6 @@
     Plugin.prototype = {
 
         init: function() {
-
-
             var characters = 0;
             var capitalletters = 0;
             var loweletters = 0;
@@ -47,7 +45,7 @@
                 }
 
                 function check_strength(thisval,thisid){
-                    if (thisval.length > 8) { characters = 1; } else { characters = -1; };
+                    if (thisval.length > 7) { characters = 8; } else { characters = 0; };
                     if (thisval.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
                     if (thisval.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
                     if (thisval.match(numbers)) { number = 1}  else { number = 0; };
@@ -63,27 +61,21 @@
             function get_total(total,thisid){
 
                 var thismeter = $('div[data-meter="'+thisid+'"]');
-                    if (total <= 1) {
+                    if (total < 8) {
                    thismeter.removeClass();
-                   thismeter.addClass('veryweak').html('very weak');
-                } else if (total == 2){
+                   thismeter.addClass('weak').attr("data-info", "weak").html('weak');
+                } else if (total < 10){
                     thismeter.removeClass();
-                   thismeter.addClass('weak').html('weak');
-                } else if(total == 3){
+                   thismeter.addClass('weak').attr('data-info', 'upperlowerdigit').html('weak');
+                } else if(total == 10){
                     thismeter.removeClass();
-                   thismeter.addClass('medium').html('medium');
-
+                   thismeter.addClass('medium').attr('data-info', 'upperlowerdigit').html('medium');
                 } else {
                      thismeter.removeClass();
-                   thismeter.addClass('strong').html('strong');
+                   thismeter.addClass('strong').attr('data-info', 'strong').html('strong');
                 }
-                
                 if (total == -1) { thismeter.removeClass().html('Strength'); }
             }
-
-
-
-
 
             var isShown = false;
             var strengthButtonText = this.options.strengthButtonText;
@@ -92,8 +84,8 @@
 
             thisid = this.$elem.attr('id');
 
-            this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after('<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value=""><a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a><div class="'+this.options.strengthMeterClass+'"><div data-meter="'+thisid+'">Strength</div></div>');
-             
+            this.$elem.addClass(this.options.strengthClass).attr("data-password", thisid).after('<input style="display:none" class="form-control email-box ' + this.options.strengthClass + '" data-password="' + thisid + '" type="text" name="password2" placeholder="Password" required name="" value=""><a data-password-button="' + thisid + '" href="" class="' + this.options.strengthButtonClass + '">' + this.options.strengthButtonText + '</a><div class="' + this.options.strengthMeterClass + '"><div data-meter="' + thisid + '" data-info="weak">status</div></div>')
+
             this.$elem.bind('keyup keydown', function(event) {
                 thisval = $('#'+thisid).val();
                 $('input[type="text"][data-password="'+thisid+'"]').val(thisval);
@@ -109,15 +101,10 @@
                 
             });
 
-
-
             $(document.body).on('click', '.'+this.options.strengthButtonClass, function(e) {
                 e.preventDefault();
 
                thisclass = 'hide_'+$(this).attr('class');
-
-
-
 
                 if (isShown) {
                     $('input[type="text"][data-password="'+thisid+'"]').hide();
@@ -132,14 +119,7 @@
                     isShown = true;
    
                 }
-
-
-               
             });
-
-
-         
-            
         },
 
         yourOtherFunction: function(el, options) {
