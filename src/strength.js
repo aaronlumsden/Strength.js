@@ -43,6 +43,8 @@
             var numbers = new RegExp('[0-9]');
             var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
 
+            var options = this.options;
+
             function GetPercentage(a, b) {
                 return ((b / a) * 100);
             }
@@ -67,30 +69,31 @@
                 var thismeter = $('div[data-meter="' + thisid + '"]');
                 if (total <= 1) {
                     thismeter.removeClass();
-                    thismeter.addClass('veryweak').html(this.options.veryWeakLevelText);
+                    thismeter.addClass('veryweak').html(options.veryWeakLevelText);
                 } else if (total == 2) {
                     thismeter.removeClass();
-                    thismeter.addClass('weak').html(this.options.weakLevelText);
+                    thismeter.addClass('weak').html(options.weakLevelText);
                 } else if (total == 3) {
                     thismeter.removeClass();
-                    thismeter.addClass('medium').html(this.options.mediumLevelText);
+                    thismeter.addClass('medium').html(options.mediumLevelText);
                 } else {
                     thismeter.removeClass();
-                    thismeter.addClass('strong').html(this.options.strongLevelText);
+                    thismeter.addClass('strong').html(options.strongLevelText);
                 }
 
                 if (total == -1) {
-                    thismeter.removeClass().html(this.options.strengthMeterText);
+                    thismeter.removeClass().html(options.strengthMeterText);
                 }
             }
 
             var isShown = false;
-            var strengthButtonText = this.options.strengthButtonText;
-            var strengthButtonTextToggle = this.options.strengthButtonTextToggle;
+            var strengthButtonText = options.strengthButtonText;
+            var strengthButtonTextToggle = options.strengthButtonTextToggle;
 
             thisid = this.$elem.attr('id');
 
-            this.$elem.addClass(this.options.strengthClass).attr('data-password', thisid).after('<input style="display:none" class="' + this.options.strengthClass + '" data-password="' + thisid + '" type="text" name="" value=""><a data-password-button="' + thisid + '" href="" class="' + this.options.strengthButtonClass + '">' + this.options.strengthButtonText + '</a><div class="' + this.options.strengthMeterClass + '"><div data-meter="' + thisid + '">Strength</div></div>');
+            this.$elem.addClass(options.strengthClass).attr('data-password', thisid)
+                .after('<input style="display:none" class="' + this.options.strengthClass + '" data-password="' + thisid + '" type="text" name="" value=""><a data-password-button="' + thisid + '" href="" class="' + this.options.strengthButtonClass + '">' + this.options.strengthButtonText + '</a><div class="' + this.options.strengthMeterClass + '"><div data-meter="' + thisid + '">' + options.strengthMeterText + '</div></div>');
 
             this.$elem.bind('keyup keydown', function (event) {
                 thisval = $('#' + thisid).val();
@@ -105,7 +108,7 @@
                 check_strength(thisval, thisid);
             });
 
-            $(document.body).on('click', '.' + this.options.strengthButtonClass, function (e) {
+            $(document.body).on('click', '.' + options.strengthButtonClass, function (e) {
                 e.preventDefault();
 
                 thisclass = 'hide_' + $(this).attr('class');
