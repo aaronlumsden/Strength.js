@@ -6,7 +6,7 @@
  */
 ;(function ($, window, document, undefined) {
 
-    var pluginName = "strength",
+    var pluginName = 'strength',
         defaults = {
             strengthClass: 'strength',
             strengthMeterClass: 'strength_meter',
@@ -16,10 +16,9 @@
             veryWeakLevelText: 'very weak',
             weakLevelText: 'weak',
             mediumLevelText: 'medium',
-            strongLevelText: 'strong'
+            strongLevelText: 'strong',
+            strengthMeterText: 'Strength'
         };
-
-    // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
 
     function Plugin(element, options) {
         this.element = element;
@@ -49,29 +48,10 @@
             }
 
             function check_strength(thisval, thisid) {
-                if (thisval.length > 8) {
-                    characters = 1;
-                } else {
-                    characters = -1;
-                }
-
-                if (thisval.match(upperCase)) {
-                    capitalletters = 1
-                } else {
-                    capitalletters = 0;
-                }
-
-                if (thisval.match(lowerCase)) {
-                    loweletters = 1
-                } else {
-                    loweletters = 0;
-                }
-
-                if (thisval.match(numbers)) {
-                    number = 1
-                } else {
-                    number = 0;
-                }
+                characters = thisval.length > 8 ? 1 : -1;
+                capitalletters = thisval.match(upperCase) ? 1 : 0;
+                loweletters = thisval.match(lowerCase) ? 1 : 0;
+                number = thisval.match(numbers) ? 1 : 0;
 
                 var total = characters + capitalletters + loweletters + number + special;
                 var totalpercent = GetPercentage(7, total).toFixed(0);
@@ -84,7 +64,6 @@
             }
 
             function get_total(total, thisid) {
-
                 var thismeter = $('div[data-meter="' + thisid + '"]');
                 if (total <= 1) {
                     thismeter.removeClass();
@@ -101,7 +80,7 @@
                 }
 
                 if (total == -1) {
-                    thismeter.removeClass().html('Strength');
+                    thismeter.removeClass().html(this.options.strengthMeterText);
                 }
             }
 
@@ -136,7 +115,6 @@
                     $('input[type="password"][data-password="' + thisid + '"]').show().focus();
                     $('a[data-password-button="' + thisid + '"]').removeClass(thisclass).html(strengthButtonText);
                     isShown = false;
-
                 } else {
                     $('input[type="text"][data-password="' + thisid + '"]').show().focus();
                     $('input[type="password"][data-password="' + thisid + '"]').hide();
@@ -145,10 +123,6 @@
                 }
             });
         },
-
-        yourOtherFunction: function (el, options) {
-            // some logic
-        }
     };
 
     // A really lightweight plugin wrapper around the constructor,
